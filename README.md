@@ -14,7 +14,7 @@ python -m gitlab <personal-access-token> <group-name>
 
 As you can see you have to pass your `<personal-access-token>` to access to the GitLab API. You can create a specific one in <https://gitlab.com/profile/personal_access_tokens>.
 
-The second argument is the complete path name of the root group thar you want to inspect.
+The second argument is the complete path name of the root group that you want to inspect.
 
 For example in a hierarchy like:
 
