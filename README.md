@@ -44,3 +44,7 @@ root group - organization
             member - 1230878 - pietro
             member - 499037 - berta
 ```
+
+## Spanish tutorial
+
+- <https://www.adictosaltrabajo.com/tutoriales/administrar-usuarios-gitlab-jerarquia/>
