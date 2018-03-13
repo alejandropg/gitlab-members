@@ -40,7 +40,7 @@ root group - organization
     subgroup - 8479355 - organization/sub-group
         member - 348473 - sara
         member - 483909 - marco
-        project - 7893921 - devOps - private
+        project - 7893921 - project-1 - private
             member - 1230878 - pietro
             member - 499037 - berta
 ```
