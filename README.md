@@ -43,6 +43,15 @@ root group - organization
         project - 7893921 - project-1 - private
             member - 1230878 - pietro
             member - 499037 - berta
+
+
+users:
+    499037  : berta
+    837493  : john
+    208483  : laura
+    483909  : marco  
+    1230878 : pietro
+    348473  : sara
 ```
 
 ## Spanish tutorial

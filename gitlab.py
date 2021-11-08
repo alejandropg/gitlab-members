@@ -6,8 +6,10 @@ import sys
 
 import requests
 
+INDENT = 4
+
 headers = {}
-indent = 4
+users = {}
 
 
 def encode(name):
@@ -16,26 +18,28 @@ def encode(name):
 
 def project_members(project_name, indent_level):
     url = 'https://gitlab.com/api/v4/projects/{}/members'.format(encode(project_name))
-    response = requests.get(url, headers=headers)
+    json = get(url)
 
-    for member in response.json():
-        print(' ' * indent * indent_level, 'member -', member['id'], '-', member['username'])
+    for member in json:
+        users[member['id']] = member['username']
+        print(' ' * INDENT * indent_level, 'member -', member['id'], '-', member['username'])
 
 
 def group_members(group_name, indent_level):
     url = 'https://gitlab.com/api/v4/groups/{}/members'.format(encode(group_name))
-    response = requests.get(url, headers=headers)
+    json = get(url)
 
-    for member in response.json():
-        print(' ' * indent * indent_level, 'member -', member['id'], '-', member['username'])
+    for member in json:
+        users[member['id']] = member['username']
+        print(' ' * INDENT * indent_level, 'member -', member['id'], '-', member['username'])
 
 
 def group_projects(group_name, indent_level):
     url = 'https://gitlab.com/api/v4/groups/{}/projects'.format(encode(group_name))
-    response = requests.get(url, headers=headers)
+    json = get(url)
 
-    for project in response.json():
-        print(' ' * indent * indent_level, 'project -', project['id'], '-', project['name'], '-', project['visibility'])
+    for project in json:
+        print(' ' * INDENT * indent_level, 'project -', project['id'], '-', project['name'], '-', project['visibility'])
         project_members(project['path_with_namespace'], indent_level + 1)
 
 
@@ -44,12 +48,20 @@ def navigate_subgroups(group_name, indent_level):
     group_projects(group_name, indent_level)
 
     url = 'https://gitlab.com/api/v4/groups/{}/subgroups'.format(encode(group_name))
-    response = requests.get(url, headers=headers)
+    json = get(url)
 
-    for subgroup in response.json():
-        print(' ' * indent * indent_level, 'subgroup -', subgroup['id'], '-', subgroup['full_path'])
+    for subgroup in json:
+        print(' ' * INDENT * indent_level, 'subgroup -', subgroup['id'], '-', subgroup['full_path'])
         navigate_subgroups(subgroup['full_path'], indent_level + 1)
 
+def get(url):
+    response = requests.get(url, headers=headers)
+    if (response.status_code != 200):
+        print('ERROR ' + response.status_code + ' when GET ' + url)
+        print(reponse.text)
+        reponse.raise_for_status()
+    
+    return response.json()
 
 if __name__ == '__main__':
     token = sys.argv[1]
@@ -59,3 +71,10 @@ if __name__ == '__main__':
 
     print('root group -', root_group)
     navigate_subgroups(root_group, 1)
+
+    print()
+    print()
+    print('users:')
+    sortedByName = sorted(users.items(), key=lambda kv: kv[1])
+    for user_id, user_name in sortedByName:
+        print(' ' * INDENT, str(user_id), '\t:', user_name)
