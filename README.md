@@ -9,7 +9,7 @@ Right now GitLab doesn't allow you to search a member in this kind of hierarchie
 ```bash
 ./build.sh ; # Will create a Python virtual env and install this module dependencies
 . venv/bin/activate ; # Activate the Python virtual env
-python -m gitlab <personal-access-token> <group-name>
+python3 -m gitlab <personal-access-token> <group-name>
 ```
 
 As you can see you have to pass your `<personal-access-token>` to access to the GitLab API. You can create a specific one in <https://gitlab.com/profile/personal_access_tokens>.
